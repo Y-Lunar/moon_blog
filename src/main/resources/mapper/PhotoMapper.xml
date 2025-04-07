@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mapper.PhotoMapper">
+
+    <resultMap id="BaseResultMap" type="com.moon.entity.Photo">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="albumId" column="album_id" jdbcType="INTEGER"/>
+            <result property="photoName" column="photo_name" jdbcType="VARCHAR"/>
+            <result property="photoDesc" column="photo_desc" jdbcType="VARCHAR"/>
+            <result property="photoUrl" column="photo_url" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,album_id,photo_name,
+        photo_desc,photo_url,create_time,
+        update_time
+    </sql>
+    <select id="selectPhotoVOList" resultType="com.moon.entity.vo.PhotoVo">
+        SELECT id, photo_url
+        FROM t_photo
+        WHERE album_id = #{albumId}
+    </select>
+    <select id="selectPhotoList" resultType="com.moon.entity.vo.PhotoVo">
+        SELECT id, photo_url
+        FROM t_photo
+        WHERE album_id = #{albumId}
+    </select>
+    <select id="selectPhotoBackVOList" resultType="com.moon.entity.vo.PhotoBackVo">
+        SELECT id, photo_name, photo_desc, photo_url
+        FROM t_photo
+        <where>
+            <if test="albumId != null">
+                album_id = #{albumId}
+            </if>
+        </where>
+        LIMIT #{limit},#{size}
+    </select>
+</mapper>

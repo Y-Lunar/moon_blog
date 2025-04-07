@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mapper.TagMapper">
+
+    <resultMap id="BaseResultMap" type="com.moon.entity.Tag">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="tagName" column="tag_name" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,tag_name,create_time,
+        update_time
+    </sql>
+    <select id="selectTagOptionList" resultType="com.moon.entity.vo.TagOptionVo">
+        select id, tag_name
+        from t_tag
+    </select>
+    <select id="selectTagList" resultType="com.moon.entity.vo.TagVo">
+        SELECT t.id,
+               t.tag_name,
+               COUNT(tat.tag_id) AS article_count
+        FROM t_tag t
+                 LEFT JOIN t_article_tag tat ON t.id = tat.tag_id
+        GROUP BY t.id
+    </select>
+    <select id="selectTagListRe" resultType="com.moon.entity.Tag">
+        select id, tag_name from t_tag where tag_name in
+        <foreach collection="tagNameList" item="tagName" open="(" separator="," close=")">
+            #{tagName}
+        </foreach>
+    </select>
+    <select id="selectTagNameByArticleId" resultType="java.lang.String">
+        SELECT tag_name
+        FROM t_tag t
+                 INNER JOIN t_article_tag tat ON t.id = tat.tag_id
+        WHERE article_id = #{articleId}
+    </select>
+    <select id="selectTagBackVO" resultType="com.moon.entity.vo.TagBackVo">
+        SELECT t.id, t.tag_name, COUNT(tat.article_id) as article_count, t.create_time
+        FROM t_tag t
+        LEFT JOIN t_article_tag tat
+        ON t.id = tat.tag_id
+        <where>
+            <if test="keyword != null">
+                tag_name like concat('%',#{keyword},'%')
+            </if>
+        </where>
+        GROUP BY t.id
+        ORDER BY t.id DESC
+        LIMIT #{limit},#{size}
+    </select>
+</mapper>

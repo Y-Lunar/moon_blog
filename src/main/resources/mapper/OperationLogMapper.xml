@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mapper.OperationLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.moon.entity.OperationLog">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="module" column="module" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="uri" column="uri" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="params" column="params" jdbcType="VARCHAR"/>
+            <result property="method" column="method" jdbcType="VARCHAR"/>
+            <result property="data" column="data" jdbcType="VARCHAR"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+            <result property="ipAddress" column="ip_address" jdbcType="VARCHAR"/>
+            <result property="ipSource" column="ip_source" jdbcType="VARCHAR"/>
+            <result property="times" column="times" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,module,type,
+        uri,name,description,
+        params,method,data,
+        user_id,nickname,ip_address,
+        ip_source,times,create_time
+    </sql>
+    <select id="selectOperationLogVOList" resultType="com.moon.entity.vo.OperationLogVO">
+        SELECT
+        tol.id,
+        `module`,
+        uri,
+        type,
+        `name`,
+        description,
+        method,
+        params,
+        `data`,
+        nickname,
+        ip_address,
+        ip_source,
+        times,
+        create_time
+        FROM
+        ( SELECT id FROM t_operation_log
+        <where>
+            <if test="condition.optModule!=null">
+                `module` like concat('%',#{condition.optModule},'%')
+            </if>
+            <if test="condition.keyword!=null">
+                OR description like concat('%',#{condition.keyword},'%')
+            </if>
+        </where>
+        ORDER BY id DESC LIMIT #{limit},#{size} ) temp
+        INNER JOIN t_operation_log tol ON temp.id = tol.id
+    </select>
+</mapper>

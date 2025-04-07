@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mapper.SiteConfigMapper">
+
+    <resultMap id="BaseResultMap" type="com.moon.entity.SiteConfig">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="userAvatar" column="user_avatar" jdbcType="VARCHAR"/>
+            <result property="touristAvatar" column="tourist_avatar" jdbcType="VARCHAR"/>
+            <result property="siteName" column="site_name" jdbcType="VARCHAR"/>
+            <result property="siteAddress" column="site_address" jdbcType="VARCHAR"/>
+            <result property="siteIntro" column="site_intro" jdbcType="VARCHAR"/>
+            <result property="siteNotice" column="site_notice" jdbcType="VARCHAR"/>
+            <result property="createSiteTime" column="create_site_time" jdbcType="VARCHAR"/>
+            <result property="recordNumber" column="record_number" jdbcType="VARCHAR"/>
+            <result property="authorAvatar" column="author_avatar" jdbcType="VARCHAR"/>
+            <result property="siteAuthor" column="site_author" jdbcType="VARCHAR"/>
+            <result property="articleCover" column="article_cover" jdbcType="VARCHAR"/>
+            <result property="aboutMe" column="about_me" jdbcType="VARCHAR"/>
+            <result property="github" column="github" jdbcType="VARCHAR"/>
+            <result property="gitee" column="gitee" jdbcType="VARCHAR"/>
+            <result property="bilibili" column="bilibili" jdbcType="VARCHAR"/>
+            <result property="qq" column="qq" jdbcType="VARCHAR"/>
+            <result property="commentCheck" column="comment_check" jdbcType="TINYINT"/>
+            <result property="messageCheck" column="message_check" jdbcType="TINYINT"/>
+            <result property="isReward" column="is_reward" jdbcType="TINYINT"/>
+            <result property="weiXinCode" column="wei_xin_code" jdbcType="VARCHAR"/>
+            <result property="aliCode" column="ali_code" jdbcType="VARCHAR"/>
+            <result property="emailNotice" column="email_notice" jdbcType="TINYINT"/>
+            <result property="socialList" column="social_list" jdbcType="VARCHAR"/>
+            <result property="loginList" column="login_list" jdbcType="VARCHAR"/>
+            <result property="isMusic" column="is_music" jdbcType="TINYINT"/>
+            <result property="musicId" column="music_id" jdbcType="VARCHAR"/>
+            <result property="isChat" column="is_chat" jdbcType="TINYINT"/>
+            <result property="websocketUrl" column="websocket_url" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_avatar,tourist_avatar,
+        site_name,site_address,site_intro,
+        site_notice,create_site_time,record_number,
+        author_avatar,site_author,article_cover,
+        about_me,github,gitee,
+        bilibili,qq,comment_check,
+        message_check,is_reward,wei_xin_code,
+        ali_code,email_notice,social_list,
+        login_list,is_music,music_id,
+        is_chat,websocket_url,create_time,
+        update_time
+    </sql>
+</mapper>

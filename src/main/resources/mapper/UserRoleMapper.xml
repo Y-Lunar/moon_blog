@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mapper.UserRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.moon.entity.UserRole">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="roleId" column="role_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,role_id
+    </sql>
+    <insert id="insertUserRole">
+        insert into t_user_role(user_id,role_id) values
+        <foreach collection="roleIdList" item="roleId" separator=",">
+            (#{userId},#{roleId})
+        </foreach>
+    </insert>
+</mapper>

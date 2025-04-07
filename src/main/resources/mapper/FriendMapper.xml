@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mapper.FriendMapper">
+
+    <resultMap id="BaseResultMap" type="com.moon.entity.Friend">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="color" column="color" jdbcType="VARCHAR"/>
+            <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="introduction" column="introduction" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,color,
+        avatar,url,introduction,
+        create_time,update_time
+    </sql>
+    <select id="SelectFriendVoList" resultType="com.moon.entity.vo.FriendVO">
+        SELECT id, `name`, color, url, avatar, introduction
+        FROM t_friend
+    </select>
+    <select id="selectFriendBackVOList" resultType="com.moon.entity.vo.FriendBackVo">
+        SELECT id, `name`, color, avatar, url, introduction, create_time
+        FROM t_friend
+        <where>
+            <if test="keyword != null">
+                `name` like concat('%',#{keyword},'%')
+            </if>
+        </where>
+        ORDER BY id DESC
+        limit #{limit},#{size}
+    </select>
+</mapper>

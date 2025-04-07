@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mapper.RoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.moon.entity.Role">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+            <result property="roleDesc" column="role_desc" jdbcType="VARCHAR"/>
+            <result property="isDisable" column="is_disable" jdbcType="TINYINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,role_name,role_desc,
+        is_disable,create_time,update_time
+    </sql>
+    <select id="selectRoleListByLoginId" resultType="java.lang.String">
+        SELECT r.id
+        FROM t_role r
+                 INNER JOIN t_user_role ur ON r.id = ur.role_id
+        WHERE ur.user_id = #{userId}
+          AND r.is_disable = 0
+    </select>
+    <select id="selectCountRoleVO" resultType="java.lang.Long">
+        SELECT
+        COUNT(id)
+        FROM
+        t_role
+        <where>
+            <if test="condition.keyword != null">
+                role_name like concat('%',#{condition.keyword},'%')
+            </if>
+            <if test="condition.isDisable != null">
+                and is_disable = #{condition.isDisable}
+            </if>
+        </where>
+    </select>
+    <select id="selectRoleVOList" resultType="com.moon.entity.vo.RoleVo">
+        SELECT id,
+        role_name,
+        role_desc,
+        is_disable,
+        create_time
+        FROM t_role
+        <where>
+            <if test="condition.keyword != null">
+                role_name like concat('%',#{condition.keyword},'%')
+            </if>
+            <if test="condition.isDisable != null">
+                and is_disable = #{condition.isDisable}
+            </if>
+        </where>
+        ORDER BY id
+        LIMIT #{limit},#{size}
+    </select>
+    <select id="selectUserRoleList" resultType="com.moon.entity.vo.UserRoleVo">
+        select id, role_name
+        from t_role
+    </select>
+</mapper>
